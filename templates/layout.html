@@ -9,7 +9,12 @@
 
 </head>
 <body>
-    {% block body %}{% endblock %}
+    {% include 'includes/_navbar.html' %}
+
+    <div class="container mt-3">
+      {% block body %}{% endblock %}
+    </div>
+    
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
