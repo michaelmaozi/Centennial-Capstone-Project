@@ -1,2 +1,2 @@
-# PG-python-flask-small-app
+# Centennial Capstone Project
 begin to learn python flask
