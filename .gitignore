@@ -1,0 +1,10 @@
+# Local Enviroments
+.vscode/*
+
+.env
+env/
+
+.venv
+venv/
+
+
