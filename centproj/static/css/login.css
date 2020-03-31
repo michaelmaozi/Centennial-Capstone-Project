@@ -1,0 +1,20 @@
+input#id_captcha_1 {
+  width: 500px;
+}
+
+img.captcha {
+  float: right;
+  border: green;
+}
+
+.QRimage {
+  display: none;
+}
+
+.QRSubmit {
+  display: none;
+}
+
+#QRcodeInput {
+  display: none;
+}

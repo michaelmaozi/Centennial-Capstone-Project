@@ -1,22 +1,159 @@
-{% extends 'layout.html' %}
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi Factors Authentication</title>
 
-{% block body %}
-<form class="container" action="{% url 'login' %}" method="POST">
-  <div class="form-group">
-    <label for="exampleInputEmail1">Student / Staff ID:</label>
-    <input name="username"  class="form-control">
-    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input name="password" type="password" class="form-control" id="exampleInputPassword1">
-  </div>
-  <!-- <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div> -->
-  <button type="submit" class="btn btn-primary">Submit</button>
-  {% csrf_token %}
-</form>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-{% endblock %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+</head>
+<body class="container mt-5">
+
+  <div class="row justify-content-end">
+    <a class="btn btn-outline-info custom-me" href="/" role="button" style="float:right">Back to Home</a>
+  </div>
+  
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">General Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Phone OTP Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">QRcode OTP Login</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="voice-tab" data-toggle="tab" href="#voice" role="tab" aria-controls="voice" aria-selected="false">Voice Login</a>
+    </li>
+  </ul>
+
+  <div class="tab-content mt-3" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <form class="" action="{% url 'login' %}" method="POST">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Student / Staff ID:</label>
+          <input name="username"  class="form-control" value="{{ login_form.username.value }}" required>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input name="password" type="password" class="form-control" id="exampleInputPassword1" value="{{ login_form.password.value }}"required>
+        </div>
+        <button type="submit" class="btn btn-primary">Log in</button>
+        {% if login_form.errors.items or msg %}
+        <div class="alert alert-danger mt-3" role="alert">
+          {% for key, error in login_form.errors.items %}{{error}}{% endfor %}
+          {{ msg }}
+        </div>
+        {% endif %}
+        {% csrf_token %}
+      </form>
+    </div>
+
+
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <form class="" action="{% url 'd_login' %}" method="POST">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Phone number :</label>
+            <input id="jsRegMobile" name="mobile"  class="form-control" type="text" value="{{ login_form.mobile.value|default_if_none:'' }}" required>
+          </div>
+          <div class="form-group" id="jsRefreshCode">
+              {{ login_form.captcha }}
+              {{ d_form.captcha }}
+          </div>
+          <div class="form-group input-group">
+            <input id="jsPhoneRegCaptcha" name="code" type="text" class="form-control" value="{{ login_form.code.value|default_if_none:'' }}" required>
+
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="jsSendCode">Send Verification Code</button>
+            </div>
+          </div>
+          <div class="error btns" id="jsMobileTips">{% if login_form.errors %}{% for key, error in login_form.errors.items %}{{ error }}{% endfor %}{% else %}{{ msg }}{% endif %}</div>
+          <!-- <button class="btn btn-primary" id="jsMobileRegBtn" type="button">Log in</button> -->
+          <button type="submit" class="btn btn-primary">Log in</button>
+          {% csrf_token %}
+        </form>
+      </div>
+    </div>
+
+
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+      <div class="tab-content mt-3" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <form class="" action="{% url 'qr_login' %}" method="POST">
+            <div class="form-group">
+              <label for="">Student / Staff ID:</label>
+              <input name="username"  class="form-control" value="" id="QRusername" required>
+            </div>
+            <div class="form-group">
+              <label for="">Password</label>
+              <input name="password" type="password" class="form-control" id="QRpassword" value=""required>
+            </div>
+            <!-- <div class="form-group">
+              <img src="{% static 'qrimages/301101485.jpg' %}" class="QRimage">
+            </div> -->
+            <div class="form-group">
+              <label for="">QR code:</label>
+              <input name="code"  class="form-control" value="" id="QRcodeInput" required>
+            </div>
+            <button class="btn btn-outline-secondary" type="button" id="jsCreateQrCode">Generate QRcode</button>
+            <button type="submit" class="btn btn-primary QRsubmit">Log in</button>
+            <!-- {% if login_form.errors.items or msg %}
+            <div class="alert alert-danger mt-3" role="alert">
+              {% for key, error in login_form.errors.items %}{{error}}{% endfor %}
+              {{ msg }}
+            </div>
+            {% endif %} -->
+            {% csrf_token %}
+          </form>
+        </div>
+    </div>
+  </div>
+
+  <div class="tab-pane fade" id="voice" role="tabpanel" aria-labelledby="contact-tab">
+    <div class="tab-content mt-3" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <form class="" action="{% url 'voice_login' %}" method="POST">
+          <div class="form-group">
+            <label for="">Student / Staff ID:</label>
+            <input name="username"  class="form-control" value="" id="" required>
+          </div>
+          <div class="form-group">
+            <label for="">Password</label>
+            <input name="password" type="password" class="form-control" id="" value=""required>
+          </div>
+          <img src="{% static 'images/mic.png' %}" alt="Speak" style="background-color: black;width: 50px;height: 50px;"/>
+          <p>click the button to tell me your voice Login identified secrect within 3 seconds.</p>
+          <button type="button" class="btn btn-outline-primary" id="startToRecord">Start Recoding</button>
+          <div class="form-group">
+            <label for="">secrect : </label>
+            <input name="secrect" type="text" class="form-control" id="voice-secrect" value="" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-vocie-login">Log in</button>
+          {% csrf_token %}
+        </form>
+      </div>
+  </div>
+
+    
+    
+  </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="{% static 'js/custom_general.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/validateDialog.js' %}"  type="text/javascript"></script>
+<script src="{% static 'js/login.js' %}" type="text/javascript"></script>
+
+</html>
+
+
+
+  

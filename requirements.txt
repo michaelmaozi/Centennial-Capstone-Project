@@ -14,3 +14,6 @@ six
 xlwt
 xlsxwriter
 requests
+twilio
+django-simple-captcha
+qrcode

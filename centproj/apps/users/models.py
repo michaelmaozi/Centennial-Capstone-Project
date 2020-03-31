@@ -19,6 +19,7 @@ class BaseModel(models.Model):
 class UserProfile(AbstractUser):
     nick_name = models.CharField(max_length=50, verbose_name="nick name", default="")
     birthday = models.DateField(verbose_name="birthday", null=True, blank=True)
+    voice_secrect = models.CharField(verbose_name="voice secrect", default="hello", max_length=50)
     gender = models.CharField(verbose_name="gender", choices=GENDER_CHOICES, max_length=6)
     address = models.CharField(max_length=100, verbose_name="address", default="")
     mobile = models.CharField(max_length=11, verbose_name="mobil number")

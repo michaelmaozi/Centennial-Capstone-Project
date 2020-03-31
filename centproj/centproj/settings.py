@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'xadmin.apps.XAdminConfig',   # xadmin
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,15 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# twilio sms API config
+twilio_account_id = "AC522ed3a7b6e89ed3e51c5c0057f048dd"
+twilo_auth_token = "a58697d91890e7014aaa3d15682e629a"
+from_twilio_mobile = "+12512573354"
+
+#redis
+REDIS_HOST = "127.0.0.1"
+REDIS_PORT = 6379
+
+      
+      

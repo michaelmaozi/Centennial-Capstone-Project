@@ -1,5 +1,16 @@
 {% extends 'layout.html' %}
+{% load staticfiles %}
 
 {% block body %}
-
+  <div class="jumbotron">
+    <h1 class="display-4">Centennial Capstone Project</h1>
+    <p class="lead">This is a project about two / Multi factor login system</p>
+    <hr class="my-4">
+    <p>Developed by ZiXiang Mao, ZhiQiang Zhao, Arnab Bardhan Chowdhury</p>
+    <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
+  </div>
+  {% if user.is_authenticated %}
+    <h3>Hello, {% if user.nick_name %}{{ user.nick_name }}{% else %}{{ user.username }}{% endif %} Welcomeback</h3>
+    <img class="mr-3" width="50" height="50" src="{% static 'images/default_big_14.png' %}"/>{{ user.first_name }}{{ user.last_name}}
+  {% endif %}
 {% endblock %}

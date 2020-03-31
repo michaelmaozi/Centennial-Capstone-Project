@@ -16,14 +16,27 @@ Including another URLconf
 # from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
+from django.conf.urls import url, include
+from django.views.decorators.csrf import  csrf_exempt
 
 import xadmin
 
-from apps.users.views import LoginView
+from apps.users.views import LoginView, LogoutView, SendSmsView, DynamicLoginView, CreateQRcodeView, QrLoginView,VoiceLoginView
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
     path('', TemplateView.as_view(template_name="index.html"), name="index"),
-    path('login/', LoginView.as_view(), name="login")
+
+    path('login/', LoginView.as_view(), name="login"),
+    path('d_login/', DynamicLoginView.as_view(), name="d_login"),
+    path('qr_login/', QrLoginView.as_view(), name="qr_login"),
+    path('voice_login/', VoiceLoginView.as_view(), name="voice_login"),
+
+    
+    path('logout/', LogoutView.as_view(), name="logout"),
+
+    url(r'^captcha/', include('captcha.urls')),
+    url(r'^send_sms/', csrf_exempt(SendSmsView.as_view()), name="send_sms"),
+    url(r'^create_qrcode/', csrf_exempt(CreateQRcodeView.as_view()), name="create_qrcode"),
 ]
