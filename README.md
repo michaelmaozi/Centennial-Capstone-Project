@@ -11,3 +11,8 @@
   ```bash
   $ pipenv shell
   ```
+* use pipenv to install requirement.txt
+* go to folder centproj/ and type this command-line to run this project
+  ```bash
+  $pipenv manage.py runserver
+  ```
