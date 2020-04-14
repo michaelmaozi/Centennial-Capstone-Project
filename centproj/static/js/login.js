@@ -139,6 +139,6 @@ function onSpeak(e) {
 
 // Write what user speaks
 function writeMessage(msg) {
-    $("#voice-secrect").val(msg);
+    $("#voice-secret").val(msg);
 }
  

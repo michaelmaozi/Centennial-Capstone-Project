@@ -128,11 +128,11 @@
             <input name="password" type="password" class="form-control" id="" value=""required>
           </div>
           <img src="{% static 'images/mic.png' %}" alt="Speak" style="background-color: black;width: 50px;height: 50px;"/>
-          <p>click the button to tell me your voice Login identified secrect within 3 seconds.</p>
+          <p>click the button to tell me your voice Login identified secret within 3 seconds.</p>
           <button type="button" class="btn btn-outline-primary" id="startToRecord">Start Recoding</button>
           <div class="form-group">
-            <label for="">secrect : </label>
-            <input name="secrect" type="text" class="form-control" id="voice-secrect" value="" required>
+            <label for="">secret : </label>
+            <input name="secret" type="text" class="form-control" id="voice-secret" value="" required>
           </div>
           <button type="submit" class="btn btn-primary btn-vocie-login">Log in</button>
           {% csrf_token %}

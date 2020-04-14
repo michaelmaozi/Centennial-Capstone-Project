@@ -143,11 +143,11 @@ class VoiceLoginView(View):
       password = login_form.cleaned_data["password"]
 
       user = authenticate(username=user_name, password=password)
-      user_secrect = user.voice_secrect
+      user_secret = user.voice_secret
 
-      input_user_secrect = login_form.cleaned_data["secrect"]
+      input_user_secret = login_form.cleaned_data["secret"]
 
-      if input_user_secrect.lower() == user_secrect:
+      if input_user_secret.lower() == user_secret:
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
       else:

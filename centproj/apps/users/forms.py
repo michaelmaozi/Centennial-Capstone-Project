@@ -22,4 +22,4 @@ class QrLoginPostForm(forms.Form):
 class VoiceLoginPostForm(forms.Form):
   username = forms.CharField(required=True, min_length=6)
   password = forms.CharField(required=True, min_length=4)
-  secrect = forms.CharField(required=True, min_length=4, max_length=50)
+  secret = forms.CharField(required=True, min_length=4, max_length=50)
